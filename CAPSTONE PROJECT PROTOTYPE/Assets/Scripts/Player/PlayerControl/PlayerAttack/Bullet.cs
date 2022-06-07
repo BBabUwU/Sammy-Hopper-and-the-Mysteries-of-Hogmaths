@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D _hitInfo)
     {
-        Enemy _enemy = _hitInfo.GetComponent<Enemy>();
+        EnemyHealthSystem _enemy = _hitInfo.GetComponent<EnemyHealthSystem>();
         if(_enemy != null)
         {
             _enemy.TakeDamage(_damage);

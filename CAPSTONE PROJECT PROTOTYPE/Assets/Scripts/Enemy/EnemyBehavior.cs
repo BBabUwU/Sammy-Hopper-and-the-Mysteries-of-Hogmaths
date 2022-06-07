@@ -8,6 +8,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] public float _agroRange = 5f;
     [SerializeField] public float _attackRange = 1f;
     private bool _movingRight = true;
+    private bool _isMoving;
     Rigidbody2D _rb;
     Transform _player;
     public Transform _groundDetection;
@@ -38,12 +39,15 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
+        _anim.SetBool("isMoving", _isMoving);
+
         float _distToPlayer = Vector2.Distance(transform.position, _player.position);
         AttackPlayer();
         if (_distToPlayer < _agroRange && GroundDetect())
         {
             if (_distToPlayer < _attackRange)
             {
+                _isMoving = false;
                 _rb.velocity = new Vector2(0, 0);
             }
             else
@@ -53,6 +57,7 @@ public class EnemyBehavior : MonoBehaviour
         }
         else if (_distToPlayer < _agroRange && !GroundDetect())
         {
+            _isMoving = false;
             _rb.velocity = new Vector2(0, 0);
         }
         else
@@ -75,6 +80,8 @@ public class EnemyBehavior : MonoBehaviour
 
     public void Patrol()
     {
+
+        _isMoving = true;
 
         if (GroundDetect())
         {
@@ -112,6 +119,8 @@ public class EnemyBehavior : MonoBehaviour
 
     public void ChasePlayer()
     {
+        _isMoving = true;
+
         if (transform.position.x < _player.position.x)
         {
             _rb.velocity = new Vector2(_speed, 0);
