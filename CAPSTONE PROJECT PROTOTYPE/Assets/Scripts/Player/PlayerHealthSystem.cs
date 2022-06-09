@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealthSystem : MonoBehaviour
 {
+  public static event Action _OnPlayerDeath;
   public Text _healthText;
   public Image _healthBar;
   float _health;
@@ -38,6 +41,9 @@ public class PlayerHealthSystem : MonoBehaviour
     if (_health > 0)
       _health -= _damagePoints;
     _healthText.text = "Health: " + _health + "%";
+
+    if(_health <= 0) _OnPlayerDeath?.Invoke();
+    
   }
 
   public void Heal(float _healingPoints)

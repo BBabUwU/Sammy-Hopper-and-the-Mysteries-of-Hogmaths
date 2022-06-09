@@ -204,7 +204,7 @@ MonoBehaviour:
   _attackCoolDown: 1
   _range: 0.7
   _colliderDistance: 0.23
-  _damage: 10
+  _damage: 50
   _boxCollider: {fileID: 3630821848625502710}
   _playerLayer:
     serializedVersion: 2

@@ -17,9 +17,24 @@ public class PlayerMovement : MonoBehaviour
   public Animator animator;
   [SerializeField] private Transform _groundCheck;
   [SerializeField] private LayerMask _groundLayer;
+
+  //Events
+  private void OnEnable(){
+    PlayerHealthSystem._OnPlayerDeath += DisablePlayerMovement;
+  }
+
+  private void OnDisable(){
+    PlayerHealthSystem._OnPlayerDeath -= DisablePlayerMovement;
+  }
+
+
   private void Awake()
   {
     _rb = gameObject.GetComponent<Rigidbody2D>();
+  }
+
+  private void Start(){
+    EnablePlayerMovement();
   }
 
   private void Update()
@@ -86,5 +101,15 @@ public class PlayerMovement : MonoBehaviour
       _isFacingRight = !_isFacingRight;
       transform.Rotate(0f, 180f, 0f);
     }
+  }
+
+  private void DisablePlayerMovement(){
+    animator.enabled = false;
+    _rb.bodyType = RigidbodyType2D.Static;
+  }
+
+  private void EnablePlayerMovement(){
+    animator.enabled = true;
+    _rb.bodyType = RigidbodyType2D.Dynamic;
   }
 }
