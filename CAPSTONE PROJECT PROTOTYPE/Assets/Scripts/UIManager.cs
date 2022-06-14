@@ -18,7 +18,7 @@ public void EnableGameOverMenu(){
 }
 
 public void RestartLevel(){
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    SceneManager.LoadScene(1);
 }
 
 }

@@ -8,11 +8,9 @@ public class PlayerMovement : MonoBehaviour
   private bool _isFacingRight = true;
   private float _coyoteTime = 0.2f;
   private float _coyoteTimeCounter;
-
+  
   private float _jumpBufferTime = 0.2f;
   private float _jumpBufferCounter;
-
-
   private Rigidbody2D _rb;
   public Animator animator;
   [SerializeField] private Transform _groundCheck;
@@ -57,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
 
   private void Jump()
   {
+
+    //animation
+    if(IsGrounded()) animator.SetBool("IsJumping", false);
+    else if(!IsGrounded()) animator.SetBool("IsJumping", true);
+    //Monitoring coyote timer
     if (IsGrounded())
     {
       _coyoteTimeCounter = _coyoteTime;
@@ -66,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
       _coyoteTimeCounter -= Time.deltaTime;
     }
 
+    //Monitoring jump buffer timer
     if (Input.GetButtonDown("Jump"))
     {
       _jumpBufferCounter = _jumpBufferTime;
@@ -75,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
       _jumpBufferCounter -= Time.deltaTime;
     }
 
+    //Short jump
     if (_jumpBufferCounter > 0f && _coyoteTimeCounter > 0f)
     {
       _rb.velocity = new Vector2(_rb.velocity.x, _jumpingPower);
@@ -82,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
       _jumpBufferCounter = 0f;
     }
 
+    //High jump
     if (Input.GetButtonUp("Jump") && _rb.velocity.y > 0f)
     {
       _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * 0.5f);
