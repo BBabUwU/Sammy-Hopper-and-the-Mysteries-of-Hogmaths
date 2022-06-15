@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
   private void Update()
   {
+    animator.SetFloat("Falling", _rb.velocity.y);
+    Debug.Log(_rb.velocity.y);
     Jump();
     Flip();
   }
