@@ -159,6 +159,8 @@ public class EnemyBehavior : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(_boxCollider.bounds.center + transform.right * _range * transform.localScale.x * _colliderDistance, new Vector3(_boxCollider.bounds.size.x * _range, _boxCollider.bounds.size.y, _boxCollider.bounds.size.z));
+
+        Gizmos.DrawRay(_groundDetection.position, Vector2.down * _distance);
     }
 
     private void DamagePlayer()

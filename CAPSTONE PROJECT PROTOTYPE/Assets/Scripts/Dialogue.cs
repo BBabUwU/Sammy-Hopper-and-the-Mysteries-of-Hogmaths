@@ -17,7 +17,7 @@ public class Dialogue : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if (_textComponent.text == _lines[_index])
             {

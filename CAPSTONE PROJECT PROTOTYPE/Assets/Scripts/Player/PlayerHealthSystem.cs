@@ -14,7 +14,8 @@ public class PlayerHealthSystem : MonoBehaviour
 
     private void Start()
     {
-        _health = _maxHealth;
+        _health = 50f;
+        _healthText.text = "Health: " + _health + "%";
     }
 
     private void Update()

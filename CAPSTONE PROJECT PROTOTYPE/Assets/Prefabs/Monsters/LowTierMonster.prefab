@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _distance: 2
+  _distance: 0.2
   _wallDistance: 0.1
   _agroRange: 5
   _attackRange: 1.5
