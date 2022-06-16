@@ -8,6 +8,7 @@ TagManager:
   - LowTierEnemy
   - HealthBar
   - HealthText
+  - HealthPotion
   layers:
   - Default
   - TransparentFX
