@@ -20,9 +20,9 @@ TagManager:
   - Wall
   - Player
   - Enemy
-  - 
-  - 
-  - 
+  - Bullet
+  - Item
+  - IgnorePlayer
   - 
   - 
   - 

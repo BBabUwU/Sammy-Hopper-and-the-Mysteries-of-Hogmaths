@@ -115,13 +115,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void DisablePlayerMovement()
     {
-        animator.enabled = false;
         _rb.bodyType = RigidbodyType2D.Static;
     }
 
     private void EnablePlayerMovement()
     {
-        animator.enabled = true;
         _rb.bodyType = RigidbodyType2D.Dynamic;
     }
 }

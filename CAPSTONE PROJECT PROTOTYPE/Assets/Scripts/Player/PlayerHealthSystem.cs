@@ -11,11 +11,14 @@ public class PlayerHealthSystem : MonoBehaviour
     float _health;
     float _maxHealth = 100f;
     float _lerpSpeed;
+    public GameObject _playerObject;
+    Animator _playerAnimator;
 
     private void Start()
     {
         _health = 50f;
         _healthText.text = "Health: " + _health + "%";
+        _playerAnimator = _playerObject.GetComponent<Animator>();
     }
 
     private void Update()
@@ -43,7 +46,12 @@ public class PlayerHealthSystem : MonoBehaviour
             _health -= _damagePoints;
         _healthText.text = "Health: " + _health + "%";
 
-        if (_health <= 0) _OnPlayerDeath?.Invoke();
+        if (_health <= 0)
+        {
+            _playerObject.layer = LayerMask.NameToLayer("IgnorePlayer");
+            _playerAnimator.SetTrigger("IsDead");
+            _OnPlayerDeath?.Invoke();
+        }
 
     }
 

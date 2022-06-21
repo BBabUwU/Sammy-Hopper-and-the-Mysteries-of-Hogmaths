@@ -7,6 +7,7 @@ public class HealthPotion : MonoBehaviour
     void Start()
     {
         _playerHealth = GameObject.Find("Player").GetComponent<PlayerHealthSystem>();
+        Physics2D.IgnoreLayerCollision(10, 11);
     }
     private void OnTriggerEnter2D(Collider2D other)
     {

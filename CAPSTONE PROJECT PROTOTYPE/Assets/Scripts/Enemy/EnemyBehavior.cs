@@ -20,7 +20,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float _colliderDistance;
     [SerializeField] private float _damage;
     [SerializeField] private BoxCollider2D _boxCollider;
-    [SerializeField] private LayerMask _playerLayer;
+    [SerializeField] public LayerMask _playerLayer;
     private float _cooldownTimer = Mathf.Infinity;
     private Animator _anim;
     private PlayerHealthSystem _playerHealth;
