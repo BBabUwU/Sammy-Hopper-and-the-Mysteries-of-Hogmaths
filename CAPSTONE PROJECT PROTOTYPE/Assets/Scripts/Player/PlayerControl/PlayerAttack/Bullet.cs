@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour
         StartCoroutine(SelfDestruct());
         _player = GameObject.FindGameObjectWithTag("Player");
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        Physics2D.IgnoreLayerCollision(10, 13);
+        Physics2D.IgnoreLayerCollision(10, 14);
         if (Input.GetKey(KeyCode.W))
         {
             _rb.velocity = transform.up * _speed;
@@ -33,7 +35,7 @@ public class Bullet : MonoBehaviour
     void OnTriggerEnter2D(Collider2D _hitInfo)
     {
         EnemyHealthSystem _enemy = _hitInfo.GetComponent<EnemyHealthSystem>();
-        if(_enemy != null)
+        if (_enemy != null)
         {
             _enemy.TakeDamage(_damage);
         }

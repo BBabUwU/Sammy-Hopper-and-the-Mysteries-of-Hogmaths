@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2659514884079884129}
   - component: {fileID: 2659514884079884142}
   - component: {fileID: 2659514884079884143}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: TheRock
   m_TagString: Untagged
   m_Icon: {fileID: 0}

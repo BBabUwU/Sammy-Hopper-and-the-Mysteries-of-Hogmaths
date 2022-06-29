@@ -3,26 +3,26 @@ using UnityEngine;
 public class InteractableNPC : MonoBehaviour
 {
 
-    private bool isInteractable;
-    public GameObject dialouge;
+    private bool _isInteractable;
+    public GameObject _dialouge;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && isInteractable)
+        if (Input.GetKeyDown(KeyCode.F) && _isInteractable)
         {
             Debug.Log("Clicked F");
-            dialouge.SetActive(true);
+            _dialouge.SetActive(true);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        isInteractable = true;
+        _isInteractable = true;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        isInteractable = false;
-        dialouge.SetActive(false);
+        _isInteractable = false;
+        _dialouge.SetActive(false);
     }
 }
