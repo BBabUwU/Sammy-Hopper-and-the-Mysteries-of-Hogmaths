@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -13,12 +11,12 @@ public class Weapon : MonoBehaviour
     void Update()
     {
 
-       
-      if (Input.GetButtonDown("Fire1") && Time.time > _nextFireTime)
-      {
+
+        if (Input.GetButtonDown("Fire1") && Time.time > _nextFireTime)
+        {
             Shoot();
             _nextFireTime = Time.time + _cooldownTime;
-      }
+        }
     }
 
     void Shoot()
