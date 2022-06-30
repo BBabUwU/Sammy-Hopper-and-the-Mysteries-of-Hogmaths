@@ -9,6 +9,8 @@ TagManager:
   - HealthBar
   - HealthText
   - HealthPotion
+  - Quest1NPC
+  - QuestManager
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - Item
   - IgnorePlayer
   - NPC
-  - 
+  - IgnoreBullet
   - 
   - 
   - 

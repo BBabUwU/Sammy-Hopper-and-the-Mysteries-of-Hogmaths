@@ -9,13 +9,24 @@ public class Dialogue : MonoBehaviour
     public float _textSpeed;
     public int _index; //to track which character we are.
 
-    private void Start()
+    private void Update()
+    {
+        SkipLine();
+    }
+
+    public void StartDialogue()
+    {
+        _index = 0;
+        StartCoroutine(TypeLine());
+    }
+
+    private void OnEnable()
     {
         _textComponent.text = string.Empty;
         StartDialogue();
     }
 
-    private void Update()
+    void SkipLine()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -31,12 +42,6 @@ public class Dialogue : MonoBehaviour
             }
 
         }
-    }
-
-    void StartDialogue()
-    {
-        _index = 0;
-        StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
