@@ -2,179 +2,100 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    [SerializeField] public float _speed = 5f;
-    [SerializeField] public float _distance = 2f;
-    [SerializeField] public float _wallDistance = 2f;
-    [SerializeField] public float _agroRange = 5f;
-    [SerializeField] public float _attackRange = 1f;
-    private bool _movingRight = true;
-    private bool _isMoving;
-    Rigidbody2D _rb;
-    Transform _player;
-    public Transform _groundDetection;
-    public Transform _wallDetection;
+    [Header("Enemy settings")]
+    [SerializeField] private float _enemySpeed = 2f;
+    private bool _enemyIsMoving;
+    private bool _enemyIsMovingRight;
+    //Rigidbodies
+    Rigidbody2D _enemyRb;
+    [Header("Detection objects")]
+    public GameObject _groundDetection;
+    public GameObject _obstacleDetection;
+    PlayerHealthSystem _playerHealth;
+    [Header("Detection settings")]
+    [SerializeField] private float _groundDistance = 5f;
+    [SerializeField] private float _obstacleDistance = 5f;
+    //Raycast
+    RaycastHit2D _hitGround;
+    RaycastHit2D _hitObstacle;
+    //Animations
+    private Animator _enemyAnim;
 
-    [Header("Player Attack")]
-    [SerializeField] private float _attackCoolDown;
-    [SerializeField] private float _range;
-    [SerializeField] private float _colliderDistance;
-    [SerializeField] private float _damage;
-    [SerializeField] private BoxCollider2D _boxCollider;
-    [SerializeField] public LayerMask _playerLayer;
-    private float _cooldownTimer = Mathf.Infinity;
-    private Animator _anim;
-    private PlayerHealthSystem _playerHealth;
-
-    void Start()
+    private void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _player = GameObject.FindWithTag("Player").transform;
-        _anim = GetComponent<Animator>();
+        _enemyRb = GetComponent<Rigidbody2D>();
+        _enemyAnim = GetComponent<Animator>();
+        _playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthSystem>();
+        _enemyIsMovingRight = true;
+        _enemyIsMoving = true;
     }
 
-    void Update()
+
+    private void FixedUpdate()
     {
-        _cooldownTimer += Time.deltaTime;
+        _enemyAnim.SetBool("isMoving", _enemyIsMoving);
+        EnemyPatrol();
     }
 
-    void FixedUpdate()
+    private void EnemyPatrol()
     {
-        _anim.SetBool("isMoving", _isMoving);
+        _enemyIsMoving = true;
 
-        float _distToPlayer = Vector2.Distance(transform.position, _player.position);
-        AttackPlayer();
-        if (_distToPlayer < _agroRange && GroundDetect())
+        if (GroundDetected())
         {
-            if (_distToPlayer < _attackRange)
+            if (_enemyIsMovingRight)
             {
-                _isMoving = false;
-                _rb.velocity = new Vector2(0, 0);
-            }
-            else
-            {
-                ChasePlayer();
-            }
-        }
-        else if (_distToPlayer < _agroRange && !GroundDetect())
-        {
-            _isMoving = false;
-            _rb.velocity = new Vector2(0, 0);
-        }
-        else
-        {
-            Patrol();
-        }
-    }
-
-    public bool GroundDetect()
-    {
-        RaycastHit2D _groundDetect = Physics2D.Raycast(_groundDetection.position, Vector2.down, _distance, LayerMask.GetMask("Ground"));
-        return _groundDetect.collider;
-    }
-
-    public bool WallDetect()
-    {
-        RaycastHit2D _wallDetect = Physics2D.Raycast(_wallDetection.position, _wallDetection.right, _wallDistance, LayerMask.GetMask("Ground") | LayerMask.GetMask("Wall"));
-        return _wallDetect.collider;
-    }
-
-    public void Patrol()
-    {
-
-        _isMoving = true;
-
-        if (GroundDetect())
-        {
-            if (_movingRight)
-            {
-                _rb.velocity = new Vector2(_speed, 0);
+                _enemyRb.velocity = new Vector2(_enemySpeed, 0);
                 transform.eulerAngles = new Vector3(0, 0, 0);
-
             }
-            else
+            if (!_enemyIsMovingRight)
             {
-                _rb.velocity = new Vector2(-_speed, 0);
+                _enemyRb.velocity = new Vector2(-_enemySpeed, 0);
                 transform.eulerAngles = new Vector3(0, -180, 0);
-
             }
         }
 
-        if (!GroundDetect() || WallDetect())
+        if (!GroundDetected() || ObstacleDetected())
         {
-            if (_movingRight)
+            if (_enemyIsMovingRight)
             {
-                _movingRight = false;
+                _enemyIsMovingRight = false;
                 transform.eulerAngles = new Vector3(0, -180, 0);
-                _rb.velocity = new Vector2(-_speed, 0);
             }
             else
             {
-                _movingRight = true;
+                _enemyIsMovingRight = true;
                 transform.eulerAngles = new Vector3(0, 0, 0);
-                _rb.velocity = new Vector2(_speed, 0);
             }
         }
 
     }
 
-    public void ChasePlayer()
+    //Raycast for ground and obstacle detection
+    private bool GroundDetected()
     {
-        _isMoving = true;
-
-        if (transform.position.x < _player.position.x)
-        {
-            _rb.velocity = new Vector2(_speed, 0);
-            transform.eulerAngles = new Vector3(0, 0, 0);
-        }
-        else if (transform.position.x > _player.position.x)
-        {
-            _rb.velocity = new Vector2(-_speed, 0);
-            transform.eulerAngles = new Vector3(0, -180, 0);
-        }
+        _hitGround = Physics2D.Raycast(_groundDetection.transform.position, Vector2.down, _groundDistance, LayerMask.GetMask("Ground"));
+        return _hitGround.collider;
     }
 
-    public void AttackPlayer()
+    private bool ObstacleDetected()
     {
-        if (PlayerInSight())
-        {
-            //Attack only when player is sight?
-            if (_cooldownTimer >= _attackCoolDown)
-            {
-                _cooldownTimer = 0;
-                _anim.SetTrigger("meleeAttack");
-            }
-        }
+        _hitObstacle = Physics2D.Raycast(_obstacleDetection.transform.position, Vector2.right, _obstacleDistance, LayerMask.GetMask("Ground") | LayerMask.GetMask("Wall"));
+        return _hitObstacle.collider;
     }
 
-    private bool PlayerInSight()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        RaycastHit2D hit = Physics2D.BoxCast(_boxCollider.bounds.center + transform.right * _range * transform.localScale.x * _colliderDistance, new Vector3(_boxCollider.bounds.size.x * _range, _boxCollider.bounds.size.y, _boxCollider.bounds.size.z), 0, Vector2.left, 0, _playerLayer);
-
-        if (hit.collider != null) _playerHealth = hit.transform.GetComponent<PlayerHealthSystem>();
-
-        return hit.collider != null;
+        _playerHealth.Damage(10f);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(_boxCollider.bounds.center + transform.right * _range * transform.localScale.x * _colliderDistance, new Vector3(_boxCollider.bounds.size.x * _range, _boxCollider.bounds.size.y, _boxCollider.bounds.size.z));
-
-        Gizmos.DrawRay(_groundDetection.position, Vector2.down * _distance);
-    }
-
-    private void DamagePlayer()
-    {
-        if (PlayerInSight())
-        {
-            _playerHealth.Damage(_damage);
-        }
+        Gizmos.color = Color.green;
+        //Ground distance ray
+        Gizmos.DrawRay(_groundDetection.transform.position, Vector2.down * _groundDistance);
+        //Obstacle distance ray
+        Gizmos.DrawRay(_obstacleDetection.transform.position, Vector2.right * _obstacleDistance);
     }
 
 }
-
-
-
-
-
-

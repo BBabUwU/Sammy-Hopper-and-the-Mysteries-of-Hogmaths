@@ -11,6 +11,8 @@ TagManager:
   - HealthPotion
   - Quest1NPC
   - QuestManager
+  - Quest1Dialogue
+  - Notepad
   layers:
   - Default
   - TransparentFX
@@ -45,6 +47,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1019831005
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
