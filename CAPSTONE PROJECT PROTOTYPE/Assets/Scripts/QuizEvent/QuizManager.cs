@@ -13,11 +13,13 @@ public class QuizManager : MonoBehaviour
     private string _input;
     private int _currentQuestionIndex;
     public bool _isPassed = false;
+    private PlayerHealthSystem _player;
 
     private void Start()
     {
         _myText = _textObj.GetComponent<TMP_Text>();
         RandomizeQuestion();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealthSystem>();
     }
 
     public void RandomizeQuestion()
@@ -28,6 +30,7 @@ public class QuizManager : MonoBehaviour
 
     public void ReadStringInput(string _answer)
     {
+        Debug.Log("Is entered");
         _input = _answer;
         AnswerIsCorrect();
     }
@@ -46,6 +49,10 @@ public class QuizManager : MonoBehaviour
                 _qna.RemoveAt(_currentQuestionIndex);
                 RandomizeQuestion();
             }
+        }
+        else
+        {
+            _player.Damage(50f);
         }
     }
 }

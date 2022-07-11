@@ -6,6 +6,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float _enemySpeed = 2f;
     private bool _enemyIsMoving;
     private bool _enemyIsMovingRight;
+    [SerializeField] private float _enemyDamage = 10f;
     //Rigidbodies
     Rigidbody2D _enemyRb;
     [Header("Detection objects")]
@@ -86,7 +87,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _playerHealth.Damage(10f);
+        if (other.tag == "Player") _playerHealth.Damage(_enemyDamage);
     }
 
     private void OnDrawGizmos()

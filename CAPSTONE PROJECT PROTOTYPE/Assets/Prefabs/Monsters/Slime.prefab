@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2251667817461022029}
   - component: {fileID: 2030241797762621941}
   m_Layer: 9
-  m_Name: LowTierMonster
+  m_Name: Slime
   m_TagString: LowTierEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5,7 +5,7 @@ public class InteractableNPC : MonoBehaviour
 
     private bool _isInteractable;
     public GameObject _dialouge;
-    public QuestManager _QuestManagerScript;
+    private QuestManager _QuestManagerScript;
     private void Start()
     {
         _QuestManagerScript = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
