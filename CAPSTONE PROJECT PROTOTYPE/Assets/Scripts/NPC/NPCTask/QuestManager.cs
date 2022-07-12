@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    //Quest 1 variables
     int _enemyCounter;
+    int _pages;
     private void Update()
     {
         Quest1Complete();
+        Quest2Complete();
     }
     public void Quest1EnemyCounter(int x)
     {
@@ -18,6 +17,23 @@ public class QuestManager : MonoBehaviour
     public bool Quest1Complete()
     {
         if (_enemyCounter == 5)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void Quest2PageCounter(int x)
+    {
+        _pages = _pages + x;
+    }
+
+    public bool Quest2Complete()
+    {
+        if (_pages == 5)
         {
             return true;
         }

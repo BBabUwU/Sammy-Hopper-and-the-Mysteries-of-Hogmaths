@@ -23,15 +23,19 @@ public class InteractableNPC : MonoBehaviour
                     _dialouge = GameObject.FindWithTag("Quest1Dialogue").transform.GetChild(1).gameObject;
                     _dialouge.SetActive(true);
                 }
-                else
+            }
+
+            if (gameObject.tag == "Quest2NPC")
+            {
+                if (_QuestManagerScript.Quest2Complete())
                 {
+                    Debug.Log("Dialouge Changed");
+                    _dialouge = GameObject.FindWithTag("Quest2Dialogue").transform.GetChild(1).gameObject;
                     _dialouge.SetActive(true);
                 }
             }
-            else
-            {
-                _dialouge.SetActive(true);
-            }
+
+            _dialouge.SetActive(true);
         }
     }
 

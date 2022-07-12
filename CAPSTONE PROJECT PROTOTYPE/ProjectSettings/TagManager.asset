@@ -13,6 +13,8 @@ TagManager:
   - QuestManager
   - Quest1Dialogue
   - Notepad
+  - Quest2NPC
+  - Quest2Dialogue
   layers:
   - Default
   - TransparentFX
