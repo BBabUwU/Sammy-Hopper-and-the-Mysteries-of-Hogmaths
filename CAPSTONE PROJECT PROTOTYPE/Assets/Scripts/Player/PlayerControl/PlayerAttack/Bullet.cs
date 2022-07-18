@@ -1,18 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     public float _speed = 20f;
-    public int _damage = 40;
+    private int _damage;
     public Rigidbody2D _rb;
-    public GameObject _player;
+    private GameObject _player;
+    private Weapon _playerWeapon;
+
+    private void Awake()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _playerWeapon = _player.GetComponent<Weapon>();
+    }
 
     void Start()
     {
+        _damage = _playerWeapon.WeaponDamage();
         StartCoroutine(SelfDestruct());
-        _player = GameObject.FindGameObjectWithTag("Player");
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         Physics2D.IgnoreLayerCollision(10, 13);
         Physics2D.IgnoreLayerCollision(10, 14);
@@ -34,11 +40,20 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D _hitInfo)
     {
-        EnemyHealthSystem _enemy = _hitInfo.GetComponent<EnemyHealthSystem>();
-        if (_enemy != null)
+
+        if (_hitInfo.tag == "LowTierEnemy")
         {
+            EnemyHealthSystem _enemy = _hitInfo.GetComponent<EnemyHealthSystem>();
             _enemy.TakeDamage(_damage);
         }
+
+        if (_hitInfo.tag == "Boss")
+        {
+            Boss _boss = _hitInfo.GetComponent<Boss>();
+            _boss.DamageBoss(_damage);
+            Debug.Log("Boss");
+        }
+
         Destroy(gameObject);
     }
 }
