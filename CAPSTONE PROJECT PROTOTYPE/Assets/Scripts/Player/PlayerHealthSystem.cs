@@ -5,19 +5,20 @@ using UnityEngine.UI;
 public class PlayerHealthSystem : MonoBehaviour
 {
     public static event Action _OnPlayerDeath;
-    public Text _healthText;
     public Image _healthBar;
     float _health;
     float _maxHealth = 100f;
     float _lerpSpeed;
     public GameObject _playerObject;
     Animator _playerAnimator;
+    public bool _isDead = false;
+    private Rigidbody2D _rb;
 
     private void Start()
     {
         _health = 50f;
-        _healthText.text = "Health: " + _health + "%";
         _playerAnimator = _playerObject.GetComponent<Animator>();
+        _rb = _playerObject.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -43,12 +44,14 @@ public class PlayerHealthSystem : MonoBehaviour
     {
         if (_health > 0)
             _health -= _damagePoints;
-        _healthText.text = "Health: " + _health + "%";
 
         if (_health <= 0)
         {
-            _playerObject.layer = LayerMask.NameToLayer("IgnorePlayer");
-            _playerAnimator.SetTrigger("IsDead");
+            if (!_isDead)
+            {
+                _playerAnimator.SetTrigger("IsDead");
+                _isDead = true;
+            }
             _OnPlayerDeath?.Invoke();
         }
 
@@ -58,6 +61,5 @@ public class PlayerHealthSystem : MonoBehaviour
     {
         if (_health < _maxHealth)
             _health += _healingPoints;
-        _healthText.text = "Health: " + _health + "%";
     }
 }

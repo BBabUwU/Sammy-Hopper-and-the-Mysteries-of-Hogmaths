@@ -17,7 +17,6 @@ public class Boss : MonoBehaviour
     //Enemy attack
     [SerializeField] private BoxCollider2D _boxCollider;
     [SerializeField] private LayerMask _playerLayer;
-    [SerializeField] private float _range;
     [SerializeField] private float _width;
     [SerializeField] private float _height;
 
@@ -26,7 +25,7 @@ public class Boss : MonoBehaviour
     private BossPhase1 _bossPhase1;
     [SerializeField] private int _bossDamage = 10;
 
-
+    public Transform _playerDetection;
 
     private void Start()
     {
@@ -43,15 +42,16 @@ public class Boss : MonoBehaviour
 
     private bool PlayerInSight()
     {
-        RaycastHit2D _hit = Physics2D.BoxCast(_boxCollider.bounds.center + transform.right * _range, new Vector2(_boxCollider.bounds.size.x * _width, _boxCollider.bounds.size.y * _height), 0, Vector2.left, 0, _playerLayer);
-
+        RaycastHit2D _hit = Physics2D.BoxCast(_playerDetection.position, new Vector2(_boxCollider.bounds.size.x * _width, _boxCollider.bounds.size.y * _height), 0, Vector2.left, 0, _playerLayer);
+        Debug.Log(_hit.collider);
         return _hit.collider != null;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(_boxCollider.bounds.center + transform.right * _range, new Vector2(_boxCollider.bounds.size.x * _width, _boxCollider.bounds.size.y * _height));
+        Gizmos.DrawWireCube(_playerDetection.position, new Vector2(_boxCollider.bounds.size.x * _width, _boxCollider.bounds.size.y * _height));
+
     }
 
     public void DamageBoss(int _damage)

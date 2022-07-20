@@ -10,6 +10,7 @@ public class BossPhase1 : MonoBehaviour
     private TMP_Text _questionText;
     [NonReorderable] public List<QnA> _qna = new List<QnA>();
     private bool _isPassed = false;
+    public bool _isAnswering = true;
     private int _currentQuestionIndex;
     public Animator _startBossFight;
 
@@ -45,6 +46,8 @@ public class BossPhase1 : MonoBehaviour
         _passingScore = (Mathf.Abs(_maximumNumberOfQuestions / 2));
 
         RandomizeQuestion();
+
+        _bossUI.SetActive(true);
     }
 
     private void Update()
@@ -63,8 +66,7 @@ public class BossPhase1 : MonoBehaviour
             }
             else
             {
-                _timeLeft = 0;
-                _TimerActive = false;
+                Evaluation();
             }
         }
     }
@@ -101,7 +103,7 @@ public class BossPhase1 : MonoBehaviour
 
         if (_questionCounter == _maximumNumberOfQuestions)
         {
-            MaximumQuestionReached();
+            Evaluation();
         }
         else
         {
@@ -110,7 +112,7 @@ public class BossPhase1 : MonoBehaviour
         }
     }
 
-    private void MaximumQuestionReached()
+    private void Evaluation()
     {
         _timeLeft = 0;
         _TimerActive = false;
@@ -146,6 +148,7 @@ public class BossPhase1 : MonoBehaviour
 
         if (_isPassed)
         {
+            _isAnswering = false;
             _startBossFight.SetBool("IsActive", true);
         }
     }

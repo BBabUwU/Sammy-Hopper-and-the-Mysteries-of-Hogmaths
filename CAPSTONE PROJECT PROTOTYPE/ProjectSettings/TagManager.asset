@@ -33,10 +33,10 @@ TagManager:
   - IgnorePlayer
   - NPC
   - IgnoreBullet
-  - 
-  - 
-  - 
-  - 
+  - Projectile
+  - BossArenaTrigger
+  - Teleporter
+  - Boss
   - 
   - 
   - 
