@@ -9,8 +9,8 @@ public class BossPhase1 : MonoBehaviour
     private TMP_InputField _inputField;
     private TMP_Text _questionText;
     [NonReorderable] public List<QnA> _qna = new List<QnA>();
-    private bool _isPassed = false;
-    public bool _isAnswering = true;
+    private bool _isPassed;
+    public bool _isAnswering = false;
     private int _currentQuestionIndex;
     public Animator _startBossFight;
 
@@ -41,6 +41,7 @@ public class BossPhase1 : MonoBehaviour
         _questionPanel = _bossUI.transform.GetChild(0).gameObject;
         _scorePanel = _bossUI.transform.GetChild(1).gameObject;
 
+        _isAnswering = true;
         _timeLeft = _timeLeft * 60;
         _TimerActive = true;
         _passingScore = (Mathf.Abs(_maximumNumberOfQuestions / 2));
