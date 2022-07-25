@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class PlayerHealthSystem : MonoBehaviour
 {
-    public static event Action _OnPlayerDeath;
     public Image _healthBar;
     float _health;
     float _maxHealth = 100f;
@@ -13,6 +12,7 @@ public class PlayerHealthSystem : MonoBehaviour
     Animator _playerAnimator;
     public bool _isDead = false;
     private Rigidbody2D _rb;
+    [SerializeField] private PlayerManager _PlayerControlManagerV2;
 
     private void Start()
     {
@@ -52,7 +52,7 @@ public class PlayerHealthSystem : MonoBehaviour
                 _playerAnimator.SetTrigger("IsDead");
                 _isDead = true;
             }
-            _OnPlayerDeath?.Invoke();
+            _PlayerControlManagerV2.SetPlayerDeath(_isDead);
         }
 
     }

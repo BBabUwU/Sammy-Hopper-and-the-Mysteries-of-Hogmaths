@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+using Random = UnityEngine.Random;
 public class BossPhase1 : MonoBehaviour
 {
     //Boss UI
@@ -29,6 +31,7 @@ public class BossPhase1 : MonoBehaviour
     private GameObject _scorePanel;
     private GameObject _questionPanel;
 
+    [SerializeField] private PlayerManager _playerManager;
 
     void Start()
     {
@@ -47,8 +50,8 @@ public class BossPhase1 : MonoBehaviour
         _passingScore = (Mathf.Abs(_maximumNumberOfQuestions / 2));
 
         RandomizeQuestion();
-
         _bossUI.SetActive(true);
+        _playerManager.EnableMovement(false);
     }
 
     private void Update()
@@ -151,6 +154,7 @@ public class BossPhase1 : MonoBehaviour
         {
             _isAnswering = false;
             _startBossFight.SetBool("IsActive", true);
+            _playerManager.EnableMovement(true);
         }
     }
 

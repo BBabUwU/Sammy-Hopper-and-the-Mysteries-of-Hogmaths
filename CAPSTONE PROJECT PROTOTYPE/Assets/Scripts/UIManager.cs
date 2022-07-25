@@ -7,12 +7,12 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerHealthSystem._OnPlayerDeath += EnableGameOverMenu;
+        PlayerManager._onPlayerDeath += EnableGameOverMenu;
     }
 
     private void OnDisable()
     {
-        PlayerHealthSystem._OnPlayerDeath -= EnableGameOverMenu;
+        PlayerManager._onPlayerDeath -= EnableGameOverMenu;
     }
 
     public void EnableGameOverMenu()
@@ -24,5 +24,4 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
-
 }

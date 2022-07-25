@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ using TMPro;
 public class QuizManager : MonoBehaviour
 {
     public GameObject _questionBox;
-
     public GameObject _textObj;
     private TMP_Text _myText;
     [NonReorderable] public List<QnA> _qna = new List<QnA>(); //NonReorderable attribute fix the visual bug.

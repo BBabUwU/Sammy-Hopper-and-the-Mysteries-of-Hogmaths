@@ -5,18 +5,15 @@ public class BlockedPath : MonoBehaviour
     public GameObject _quizEvent;
     private QuizManager _boolScript;
     private bool _isInteractable;
-    private bool _ableToMove = true;
+    [SerializeField] private PlayerManager _playerManager;
 
     GameObject _player;
-    PlayerMovement _playerMovement;
-    Weapon _playerWeapon;
+
 
     private void Start()
     {
         _boolScript = transform.parent.GetComponent<QuizManager>();
         _player = GameObject.FindGameObjectWithTag("Player");
-        _playerMovement = _player.GetComponent<PlayerMovement>();
-        _playerWeapon = _player.GetComponent<Weapon>();
     }
 
     void Update()
@@ -24,20 +21,8 @@ public class BlockedPath : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && _isInteractable)
         {
             Debug.Log("Clicked F");
-            _ableToMove = false;
             _quizEvent.SetActive(true);
-        }
-
-        if (_ableToMove)
-        {
-            _playerMovement.enabled = true;
-            _playerWeapon.enabled = true;
-        }
-
-        if (!_ableToMove)
-        {
-            _playerMovement.enabled = false;
-            _playerWeapon.enabled = false;
+            _playerManager.EnableMovement(false);
         }
 
         Passed();
@@ -54,17 +39,17 @@ public class BlockedPath : MonoBehaviour
         _quizEvent.SetActive(false);
     }
 
-    public void SetPlayerControl(bool _setPlayerControl)
+    public void ExitButton()
     {
-        _ableToMove = _setPlayerControl;
+        _quizEvent.SetActive(false);
+        _playerManager.EnableMovement(true);
     }
 
     private void Passed()
     {
         if (_boolScript._isPassed)
         {
-            _playerMovement.enabled = true;
-            _playerWeapon.enabled = true;
+            _playerManager.EnableMovement(true);
             Destroy(this.transform.parent.gameObject);
         }
     }

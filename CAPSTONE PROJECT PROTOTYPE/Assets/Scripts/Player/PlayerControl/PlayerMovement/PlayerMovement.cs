@@ -21,16 +21,14 @@ public class PlayerMovement : MonoBehaviour
     //Events
     private void OnEnable()
     {
-        PlayerHealthSystem._OnPlayerDeath += DisablePlayerMovement;
-        PlayerControlsManager._disableControls += DisablePlayerMovement;
-        PlayerControlsManager._enableControls += EnablePlayerMovement;
+        PlayerManager._disableControls += DisablePlayerMovement;
+        PlayerManager._enableControls += EnablePlayerMovement;
     }
 
     private void OnDisable()
     {
-        PlayerHealthSystem._OnPlayerDeath -= DisablePlayerMovement;
-        PlayerControlsManager._disableControls -= DisablePlayerMovement;
-        PlayerControlsManager._enableControls -= EnablePlayerMovement;
+        PlayerManager._disableControls -= DisablePlayerMovement;
+        PlayerManager._enableControls -= EnablePlayerMovement;
     }
 
     private void DisablePlayerMovement()
@@ -38,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
         _isAbleToMove = false;
         _rb.velocity = new Vector2(0, _rb.velocity.y);
     }
-
     private void EnablePlayerMovement()
     {
         _isAbleToMove = true;
@@ -73,6 +70,10 @@ public class PlayerMovement : MonoBehaviour
             _horizontal = Input.GetAxisRaw("Horizontal");
             animator.SetFloat("Speed", Mathf.Abs(_horizontal));
             _rb.velocity = new Vector2(_horizontal * _speed, _rb.velocity.y);
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
         }
     }
 

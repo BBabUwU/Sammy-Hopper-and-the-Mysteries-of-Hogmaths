@@ -45,16 +45,16 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerHealthSystem._OnPlayerDeath += DisableWeapon;
-        PlayerControlsManager._disableControls += DisableWeapon;
-        PlayerControlsManager._enableControls += EnableWeapon;
+        PlayerManager._onPlayerDeath += DisableWeapon;
+        PlayerManager._disableControls += DisableWeapon;
+        PlayerManager._enableControls += EnableWeapon;
     }
 
     private void OnDisable()
     {
-        PlayerHealthSystem._OnPlayerDeath -= DisableWeapon;
-        PlayerControlsManager._disableControls -= DisableWeapon;
-        PlayerControlsManager._enableControls -= EnableWeapon;
+        PlayerManager._onPlayerDeath -= DisableWeapon;
+        PlayerManager._disableControls -= DisableWeapon;
+        PlayerManager._enableControls -= EnableWeapon;
     }
 
     private void EnableWeapon()
